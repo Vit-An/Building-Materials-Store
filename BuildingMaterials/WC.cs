@@ -12,5 +12,7 @@ namespace BuildingMaterials
 
         public static string AdminRole = "Admin";
         public static string CustomerRole = "Customer";
+
+        public const string EmailAdmin = "skil.smile@gmail.com";
     }
 }
