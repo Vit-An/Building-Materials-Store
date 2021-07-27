@@ -1,9 +1,11 @@
 using BuildingMaterials.Data;
+using BuildingMaterials.Utility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +36,9 @@ namespace BuildingMaterials
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddDefaultTokenProviders().AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            
+
+            services.AddTransient<IEmailSender, EmailSender>();
+
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             
             services.AddSession(Options => {
