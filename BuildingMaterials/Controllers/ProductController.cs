@@ -1,6 +1,6 @@
 ﻿using BuildingMaterials.Data;
-using BuildingMaterials.Models;
-using BuildingMaterials.Models.ViewModels;
+using Models;
+using Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BuildingMaterials.Models.ViewModels
+namespace Models.ViewModels
 {
     public class ProductVM
     {

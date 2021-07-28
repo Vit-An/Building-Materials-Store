@@ -1,6 +1,6 @@
 ﻿using BuildingMaterials.Data;
-using BuildingMaterials.Models;
-using BuildingMaterials.Models.ViewModels;
+using Models;
+using Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
