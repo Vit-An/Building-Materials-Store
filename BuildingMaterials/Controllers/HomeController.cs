@@ -1,7 +1,6 @@
 ﻿using BuildingMaterials.Data;
 using BuildingMaterials.Models;
 using BuildingMaterials.Models.ViewModels;
-using BuildingMaterials.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -10,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Utility;
 
 namespace BuildingMaterials.Controllers
 {

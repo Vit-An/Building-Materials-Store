@@ -1,7 +1,6 @@
 ﻿using BuildingMaterials.Data;
 using BuildingMaterials.Models;
 using BuildingMaterials.Models.ViewModels;
-using BuildingMaterials.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -13,6 +12,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Utility;
 
 namespace BuildingMaterials.Controllers
 {
