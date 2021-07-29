@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace BuildingMaterials.Migrations
+namespace DataAccess.Migrations
 {
     public partial class AddProductDb : Migration
     {

@@ -1,5 +1,4 @@
-﻿using BuildingMaterials.Data;
-using Models;
+﻿using Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Utility;
+using DataAccess;
 
 namespace BuildingMaterials.Controllers
 {

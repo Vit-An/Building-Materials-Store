@@ -1,5 +1,4 @@
-﻿using BuildingMaterials.Data;
-using Models;
+﻿using Models;
 using Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +12,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Utility;
+using DataAccess;
 
 namespace BuildingMaterials.Controllers
 {
