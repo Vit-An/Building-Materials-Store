@@ -1,4 +1,6 @@
 using DataAccess;
+using DataAccess.Repository;
+using DataAccess.Repository.IRepisitory;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -47,6 +49,8 @@ namespace BuildingMaterials
                 Options.Cookie.IsEssential = true;
 
             });
+
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddControllersWithViews();
         }
 

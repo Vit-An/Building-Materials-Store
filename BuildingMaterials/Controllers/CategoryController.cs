@@ -7,22 +7,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Utility;
+using DataAccess.Repository.IRepisitory;
 
 namespace BuildingMaterials.Controllers
 {
     [Authorize(Roles = WC.AdminRole)]
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ICategoryRepository _catRepo;
 
-        public CategoryController(ApplicationDbContext db)
+        public CategoryController(ICategoryRepository catRepo)
         {
-            _db = db;
+            _catRepo = catRepo;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Category> objList = _db.Category;
+            IEnumerable<Category> objList = _catRepo.GetAll();
             return View(objList);
         }
 
@@ -39,8 +40,8 @@ namespace BuildingMaterials.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Category.Add(obj);
-                _db.SaveChanges();
+                _catRepo.Add(obj);
+                _catRepo.Save();
                 return RedirectToAction("Index");
             }
 
@@ -55,7 +56,7 @@ namespace BuildingMaterials.Controllers
                 return NotFound();
             }
 
-            var obj = _db.Category.Find(id);
+            var obj = _catRepo.Find(id.GetValueOrDefault());
             if (id == null)
             {
                 return NotFound();
@@ -70,8 +71,8 @@ namespace BuildingMaterials.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Category.Update(obj);
-                _db.SaveChanges();
+                _catRepo.Update(obj);
+                _catRepo.Save();
                 return RedirectToAction("Index");
             }
 
@@ -86,7 +87,7 @@ namespace BuildingMaterials.Controllers
                 return NotFound();
             }
 
-            var obj = _db.Category.Find(id);
+            var obj = _catRepo.Find(id.GetValueOrDefault());
             if (id == null)
             {
                 return NotFound();
@@ -99,15 +100,15 @@ namespace BuildingMaterials.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? categoryId)
         {
-            var obj = _db.Category.Find(categoryId);
+            var obj = _catRepo.Find(categoryId.GetValueOrDefault());
             
             if(obj == null)
             {
                 return NotFound();
             }
 
-            _db.Category.Remove(obj);
-            _db.SaveChanges();
+            _catRepo.Remove(obj);
+            _catRepo.Save();
             return RedirectToAction("Index");
             
         }
