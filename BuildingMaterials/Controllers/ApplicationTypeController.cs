@@ -7,22 +7,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using Utility;
 using DataAccess;
+using DataAccess.Repository.IRepisitory;
+using DataAccess.Repository;
 
 namespace BuildingMaterials.Controllers
 {
     [Authorize(Roles = WC.AdminRole)]
     public class ApplicationTypeController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IApplicationTypeRepository _appTypeRepo;
 
-        public ApplicationTypeController(ApplicationDbContext db)
+        public ApplicationTypeController(IApplicationTypeRepository appTypeRepo)
         {
-            _db = db;
+            _appTypeRepo = appTypeRepo;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<ApplicationType> objList = _db.ApplicationType;
+            IEnumerable<ApplicationType> objList = _appTypeRepo.GetAll();
             return View(objList);
         }
 
@@ -37,8 +39,8 @@ namespace BuildingMaterials.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(ApplicationType obj)
         {
-            _db.ApplicationType.Add(obj);
-            _db.SaveChanges();
+            _appTypeRepo.Add(obj);
+            _appTypeRepo.Save();
             return RedirectToAction("Index");
         }
 
@@ -50,7 +52,7 @@ namespace BuildingMaterials.Controllers
                 return NotFound();
             }
 
-            var obj = _db.ApplicationType.Find(id);
+            var obj = _appTypeRepo.Find(id.GetValueOrDefault());
             if (id == null)
             {
                 return NotFound();
@@ -65,8 +67,8 @@ namespace BuildingMaterials.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.ApplicationType.Update(obj);
-                _db.SaveChanges();
+                _appTypeRepo.Update(obj);
+                _appTypeRepo.Save();
                 return RedirectToAction("Index");
             }
 
@@ -81,7 +83,7 @@ namespace BuildingMaterials.Controllers
                 return NotFound();
             }
 
-            var obj = _db.ApplicationType.Find(id);
+            var obj = _appTypeRepo.Find(id.GetValueOrDefault());
             if (id == null)
             {
                 return NotFound();
@@ -94,15 +96,15 @@ namespace BuildingMaterials.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {
-            var obj = _db.ApplicationType.Find(id);
+            var obj = _appTypeRepo.Find(id.GetValueOrDefault());
 
             if (obj == null)
             {
                 return NotFound();
             }
 
-            _db.ApplicationType.Remove(obj);
-            _db.SaveChanges();
+            _appTypeRepo.Remove(obj);
+            _appTypeRepo.Save();
             return RedirectToAction("Index");
 
         }
