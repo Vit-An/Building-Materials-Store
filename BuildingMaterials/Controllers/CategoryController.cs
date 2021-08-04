@@ -42,8 +42,10 @@ namespace BuildingMaterials.Controllers
             {
                 _catRepo.Add(obj);
                 _catRepo.Save();
+                TempData[WC.Success] = "Category created Succsessfully";
                 return RedirectToAction("Index");
             }
+            TempData[WC.Error] = "Error while creating category";
 
             return View(obj);
         }
@@ -73,6 +75,7 @@ namespace BuildingMaterials.Controllers
             {
                 _catRepo.Update(obj);
                 _catRepo.Save();
+                TempData[WC.Success] = "Action completed successfully";
                 return RedirectToAction("Index");
             }
 
@@ -106,6 +109,7 @@ namespace BuildingMaterials.Controllers
             {
                 return NotFound();
             }
+            TempData[WC.Success] = "Action completed successfully";
 
             _catRepo.Remove(obj);
             _catRepo.Save();

@@ -238,3 +238,7 @@ body {
     width: 210px !important;
     margin: 0 auto;
 }
+
+.toast-success {
+    background-color: #51A351 !important;
+}

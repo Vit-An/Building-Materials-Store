@@ -39,9 +39,14 @@ namespace BuildingMaterials.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(ApplicationType obj)
         {
-            _appTypeRepo.Add(obj);
-            _appTypeRepo.Save();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _appTypeRepo.Add(obj);
+                _appTypeRepo.Save();
+                TempData[WC.Success] = "Action completed successfully";
+                return RedirectToAction("Index");
+            }
+            return View("obj");
         }
 
         //GET - EDIT
@@ -69,6 +74,7 @@ namespace BuildingMaterials.Controllers
             {
                 _appTypeRepo.Update(obj);
                 _appTypeRepo.Save();
+                TempData[WC.Success] = "Action completed successfully";
                 return RedirectToAction("Index");
             }
 
@@ -105,6 +111,7 @@ namespace BuildingMaterials.Controllers
 
             _appTypeRepo.Remove(obj);
             _appTypeRepo.Save();
+            TempData[WC.Success] = "Action completed successfully";
             return RedirectToAction("Index");
 
         }

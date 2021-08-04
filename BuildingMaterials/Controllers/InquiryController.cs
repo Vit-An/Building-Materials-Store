@@ -13,7 +13,7 @@ using Models.ViewModels;
 
 namespace BuildingMaterials.Controllers
 {
-    [Authorize(WC.AdminRole)]
+    [Authorize(Roles = WC.AdminRole)]
     public class InquiryController : Controller
     {
         private readonly IInquiryHeaderRepository _inqHRepo;
@@ -74,6 +74,8 @@ namespace BuildingMaterials.Controllers
             _inqDRepo.RemoveRange(inquiryDetail);
             _inqHRepo.Remove(inquiryHeader);
             _inqHRepo.Save();
+
+            TempData[WC.Success] = "Action completed successfully";
 
             return RedirectToAction(nameof(Index));
         }

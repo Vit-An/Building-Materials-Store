@@ -150,6 +150,7 @@ namespace BuildingMaterials.Controllers
                 _inqDRepo.Add(inquiryDetail);
             }
             _inqDRepo.Save();
+            TempData[WC.Success] = "Inquiry submitted successfully";
 
             return RedirectToAction(nameof(InquiryConfirmation));
         }
