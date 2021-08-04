@@ -13,7 +13,7 @@ using Models.ViewModels;
 
 namespace BuildingMaterials.Controllers
 {
-
+    [Authorize(WC.AdminRole)]
     public class InquiryController : Controller
     {
         private readonly IInquiryHeaderRepository _inqHRepo;
@@ -63,6 +63,19 @@ namespace BuildingMaterials.Controllers
             HttpContext.Session.Set(WC.SessionInquiryId, InquiryVM.InquiryHeader.Id);
 
             return RedirectToAction("Index","Cart");
+        }
+
+        [HttpPost]
+        public IActionResult Delete()
+        {
+            InquiryHeader inquiryHeader =_inqHRepo.FirstOrDefault(u => u.Id == InquiryVM.InquiryHeader.Id);
+            IEnumerable<InquiryDetail> inquiryDetail = _inqDRepo.GetAll(u => u.InquaryHeaderId == InquiryVM.InquiryHeader.Id);
+
+            _inqDRepo.RemoveRange(inquiryDetail);
+            _inqHRepo.Remove(inquiryHeader);
+            _inqHRepo.Save();
+
+            return RedirectToAction(nameof(Index));
         }
 
         #region API CALLS
