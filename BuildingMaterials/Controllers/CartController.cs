@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Utility;
 using DataAccess;
 using DataAccess.Repository.IRepisitory;
+using Utility.BrainTree;
 
 namespace BuildingMaterials.Controllers
 {
@@ -29,13 +30,14 @@ namespace BuildingMaterials.Controllers
 
         private readonly IOrderHeaderRepository _orderHRepo;
         private readonly IOrderDetailRepository _orderDRepo;
+        private readonly IBrainTreeGate _brain;
 
         [BindProperty]
         public ProductUserVM ProductUserVM { get; set; }
         public CartController(IWebHostEnvironment webHostEnvironment, IEmailSender emailSender,
             IApplicationUserRepository userRepo, IProductRepository prodRepo,
             IInquiryHeaderRepository inqHRepo, IInquiryDetailRepository inqDRepo,
-            IOrderHeaderRepository orderHRepo, IOrderDetailRepository orderDRepo)
+            IOrderHeaderRepository orderHRepo, IOrderDetailRepository orderDRepo, IBrainTreeGate brain)
         {
             _webHostEnvironment = webHostEnvironment;
             _emailSender = emailSender;
@@ -45,6 +47,7 @@ namespace BuildingMaterials.Controllers
             _inqDRepo = inqDRepo;
             _orderDRepo = orderDRepo;
             _orderHRepo = orderHRepo;
+            _brain = brain;
         }
         public IActionResult Index()
         {
@@ -105,6 +108,10 @@ namespace BuildingMaterials.Controllers
                 {
                     applicationUser = new ApplicationUser();
                 }
+
+                var gateway = _brain.GetGateway();
+                var clientToken = gateway.ClientToken.Generate();
+                ViewBag.ClientToken = clientToken;
             }
             else
             {
