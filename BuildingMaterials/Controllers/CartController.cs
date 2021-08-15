@@ -15,6 +15,8 @@ using Utility;
 using DataAccess;
 using DataAccess.Repository.IRepisitory;
 using Utility.BrainTree;
+using Microsoft.AspNetCore.Http;
+using Braintree;
 
 namespace BuildingMaterials.Controllers
 {
@@ -149,7 +151,7 @@ namespace BuildingMaterials.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Summary")]
-        public async Task<IActionResult> SummaryPost(ProductUserVM productUserVM)
+        public async Task<IActionResult> SummaryPost(IFormCollection collection, ProductUserVM productUserVM)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
@@ -189,6 +191,33 @@ namespace BuildingMaterials.Controllers
                         ProductId = prod.Id
                     };
                     _orderDRepo.Add(orderDetail);
+
+                    string nonceFromTheClient = collection["payment_method_nonce"];
+
+                    var request = new TransactionRequest
+                    {
+                        Amount = Convert.ToDecimal(orderHeader.FinalOrderTotal),
+                        PaymentMethodNonce = nonceFromTheClient,
+                        OrderId = orderHeader.Id.ToString(),
+                        Options = new TransactionOptionsRequest
+                        {
+                            SubmitForSettlement = true
+                        }
+                    };
+
+                    var gateway = _brain.GetGateway();
+                    Result<Transaction> result = gateway.Transaction.Sale(request);
+
+                    if (result.Target.ProcessorResponseText == "Approved")
+                    {
+                        orderHeader.TransactionId = result.Target.Id;
+                        orderHeader.OrderStatus = WC.StatusApproved;
+                    }
+                    else
+                    {
+                        orderHeader.OrderStatus = WC.StatusCancelled;
+                    }
+                    _orderHRepo.Save();
 
                 }
                 _orderDRepo.Save();
