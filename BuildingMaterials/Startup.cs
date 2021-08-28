@@ -62,6 +62,13 @@ namespace BuildingMaterials
             services.AddScoped<IOrderHeaderRepository, OrderHeaderRepository>();
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();  
             services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+
+            services.AddAuthentication().AddFacebook(Options =>
+            {
+                Options.AppId = "4368496476506612";
+                Options.AppSecret = "cc2c0779530b0f6d91c769405ed37db4";
+            });
+
             services.AddControllersWithViews();
         }
 
