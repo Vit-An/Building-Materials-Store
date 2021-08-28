@@ -1,9 +1,11 @@
 ﻿using DataAccess.Repository.IRepisitory;
 using Microsoft.AspNetCore.Mvc;
+using Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Utility;
 using Utility.BrainTree;
 
 namespace BuildingMaterials.Controllers
@@ -25,7 +27,16 @@ namespace BuildingMaterials.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            OrderListVM orderListVM = new OrderListVM()
+            {
+                OrderHList = _orderHRepo.GetAll(),
+                StatusList = WC.listStatus.ToList().Select(i => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                {
+                    Text = i,
+                    Value = i
+                })
+            };
+            return View(orderListVM);
         }
     }
 }
