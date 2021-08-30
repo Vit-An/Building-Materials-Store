@@ -1,5 +1,6 @@
 ﻿using DataAccess.Repository.IRepisitory;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -69,6 +70,33 @@ namespace BuildingMaterials.Controllers
             };
 
             return View(OrderVM);
+        }
+
+        [HttpPost]
+        public IActionResult StartProcessing()
+        {
+            OrderHeader orderHeader = _orderHRepo.FirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id);
+            orderHeader.OrderStatus = WC.StatusInProcess;
+            _orderHRepo.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public IActionResult ShipOrder()
+        {
+            OrderHeader orderHeader = _orderHRepo.FirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id);
+            orderHeader.OrderStatus = WC.StatusShipped;
+            orderHeader.ShippingDate = DateTime.Now;
+            _orderHRepo.Save();
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpPost]
+        public IActionResult CancelOrder()
+        {
+            OrderHeader orderHeader = _orderHRepo.FirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id);
+            orderHeader.OrderStatus = WC.StatusInProcess;
+            _orderHRepo.Save();
+            return RedirectToAction(nameof(Index));
         }
     }
 }
