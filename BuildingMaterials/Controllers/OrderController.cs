@@ -1,5 +1,6 @@
 ﻿using Braintree;
 using DataAccess.Repository.IRepisitory;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.ViewModels;
@@ -12,6 +13,7 @@ using Utility.BrainTree;
 
 namespace BuildingMaterials.Controllers
 {
+    [Authorize(Roles = WC.AdminRole)]
     public class OrderController : Controller
     {
         private readonly IOrderHeaderRepository _orderHRepo;
