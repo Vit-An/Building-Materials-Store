@@ -1,4 +1,5 @@
 using DataAccess;
+using DataAccess.Initializer;
 using DataAccess.Repository;
 using DataAccess.Repository.IRepisitory;
 using Microsoft.AspNetCore.Builder;
@@ -62,6 +63,7 @@ namespace BuildingMaterials
             services.AddScoped<IOrderHeaderRepository, OrderHeaderRepository>();
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();  
             services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+            services.AddScoped<IDbInitializer, DbInitializer>();
 
             services.AddAuthentication().AddFacebook(Options =>
             {
@@ -73,7 +75,7 @@ namespace BuildingMaterials
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -91,6 +93,7 @@ namespace BuildingMaterials
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            dbInitializer.Initialize();
             app.UseSession();
             app.UseEndpoints(endpoints =>
             {
