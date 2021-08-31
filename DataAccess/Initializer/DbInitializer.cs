@@ -35,7 +35,6 @@ namespace DataAccess.Initializer
 
             }
 
-
             if (!_roleManager.RoleExistsAsync(WC.AdminRole).GetAwaiter().GetResult())
             {
                 _roleManager.CreateAsync(new IdentityRole(WC.AdminRole)).GetAwaiter().GetResult();
